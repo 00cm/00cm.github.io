@@ -1,13 +1,28 @@
 const goalInput = document.getElementById('goalInput');
 const addGoalBtn = document.getElementById('addGoalBtn');
 const goalsContainer = document.getElementById('goalsContainer');
+const totalGoalsElement = document.getElementById('totalGoals');
+const completedGoalsElement = document.getElementById('completedGoals');
+const pendingGoalsElement = document.getElementById('pendingGoals');
 
 // Load goals from localStorage
 let goals = JSON.parse(localStorage.getItem('goals')) || [];
 
+// Function to update goal counter
+function updateGoalCounter() {
+    const totalGoals = goals.length;
+    const completedGoals = goals.filter(goal => goal.completed).length;
+    const pendingGoals = totalGoals - completedGoals;
+    
+    totalGoalsElement.textContent = totalGoals;
+    completedGoalsElement.textContent = completedGoals;
+    pendingGoalsElement.textContent = pendingGoals;
+}
+
 // Function to save goals to localStorage
 function saveGoals() {
     localStorage.setItem('goals', JSON.stringify(goals));
+    updateGoalCounter(); // Update counter whenever goals are saved
 }
 
 // Function to create a goal element
@@ -34,6 +49,7 @@ function renderGoals() {
     
     if (goals.length === 0) {
         goalsContainer.innerHTML = '<p class="empty-message">No goals at the moment!</p>';
+        updateGoalCounter(); // Update counter when no goals
         return;
     }
     
@@ -41,6 +57,8 @@ function renderGoals() {
         const goalElement = createGoalElement(goal, index);
         goalsContainer.appendChild(goalElement);
     });
+    
+    updateGoalCounter(); // Update counter after rendering goals
 }
 
 // Function to add a new goal
