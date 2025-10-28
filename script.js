@@ -33,7 +33,7 @@ function renderGoals() {
     goalsContainer.innerHTML = '';
     
     if (goals.length === 0) {
-        goalsContainer.innerHTML = '<p class="empty-message">No goals yet. Add your first goal above!</p>';
+        goalsContainer.innerHTML = '<p class="empty-message">No goals at the moment!</p>';
         return;
     }
     
